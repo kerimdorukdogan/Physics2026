@@ -1,4 +1,4 @@
-## Problem 1. Vector Algebra (step by step)
+## Problem 1. Vector Algebra
 
 Given  
 $\vec{a}=[2,1,-3]$ and $\vec{b}=[4,-2,1]$.
