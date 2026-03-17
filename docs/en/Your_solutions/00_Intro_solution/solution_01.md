@@ -1,197 +1,215 @@
-# Section 0 — Mathematical Foundations  
-## 1. Vector Algebra
+# 🚀 Problem 1 — Vector Algebra
 
-We are given two vectors in $\mathbb{R}^3$:
+We are given two vectors in three-dimensional space:
 
 $$
-\vec{a} = [2,\,1,\,-3], \qquad \vec{b} = [4,\,-2,\,1]
+\vec{a} = (2, 1, -3)
+$$
+
+$$
+\vec{b} = (4, -2, 1)
+$$
+
+We want to determine:
+
+- the **magnitudes** of both vectors
+- the **dot product**
+- the **cross product**
+
+---
+
+## 🧭 Vector Sketch
+
+This simple sketch shows the idea of the two vectors starting from the origin.
+
+```text
+        y
+        ↑
+        |
+        |          b = (4, -2, 1)
+        |
+--------O----------------------→ x
+       /
+      /
+     a = (2, 1, -3)
+```
+
+---
+
+## 📌 Given
+
+| Vector | Components |
+|--------|------------|
+| **a**  | (2, 1, -3) |
+| **b**  | (4, -2, 1) |
+
+---
+
+## 🧠 Key Concepts
+
+### Magnitude of a vector
+
+$$
+|\vec{v}| = \sqrt{x^2 + y^2 + z^2}
+$$
+
+### Dot product
+
+$$
+\vec{a} \cdot \vec{b} = a_x b_x + a_y b_y + a_z b_z
+$$
+
+## 3️⃣ Cross Product
+
+The cross product is computed using the determinant:
+
+$$
+\vec{a} \times \vec{b} =
+\begin{vmatrix}
+i & j & k \\
+2 & 1 & -3 \\
+4 & -2 & 1
+\end{vmatrix}
+$$
+
+Now compute each component.
+
+### I component
+
+$$
+1 \cdot 1 - (-3)(-2)
+$$
+
+$$
+1 - 6 = -5
+$$
+
+### J component
+
+$$
+2 \cdot 1 - (-3)(4)
+$$
+
+$$
+2 + 12 = 14
+$$
+
+### K component
+
+$$
+2(-2) - 1(4)
+$$
+
+$$
+-4 - 4 = -8
+$$
+
+Therefore,
+
+$$
+\vec{a} \times \vec{b} = (-5,-14,-8)
 $$
 
 ---
 
-## Necessary definitions and formulas
+## 🔍 Step-by-Step Solution
 
-### 1) Magnitude (length) of a vector
-For $\vec{v} = [v_x, v_y, v_z]$,
-
-$$
-|\vec{v}| = \sqrt{v_x^2 + v_y^2 + v_z^2}
-$$
-
-### 2) Dot product
-For $\vec{a} = [a_x,a_y,a_z]$ and $\vec{b} = [b_x,b_y,b_z]$,
+### 1️⃣ Magnitude of vector **a**
 
 $$
-\vec{a}\cdot\vec{b} = a_x b_x + a_y b_y + a_z b_z
+|\vec{a}| = \sqrt{2^2 + 1^2 + (-3)^2}
 $$
 
-### 3) Cross product
-For $\vec{a} = [a_x,a_y,a_z]$ and $\vec{b} = [b_x,b_y,b_z]$,
-
 $$
-\vec{a}\times\vec{b} =
-\begin{bmatrix}
-a_y b_z - a_z b_y \\
-a_z b_x - a_x b_z \\
-a_x b_y - a_y b_x
-\end{bmatrix}
+|\vec{a}| = \sqrt{4 + 1 + 9}
 $$
 
-### 4) Angle between two vectors
-If $\theta$ is the angle between $\vec{a}$ and $\vec{b}$, then
-
 $$
-\vec{a}\cdot\vec{b} = |\vec{a}|\,|\vec{b}| \cos\theta
-$$
-
-So,
-
-$$
-\theta = \arccos\!\left(\frac{\vec{a}\cdot\vec{b}}{|\vec{a}|\,|\vec{b}|}\right)
+|\vec{a}| = \sqrt{14}
 $$
 
 ---
 
-## (a) Magnitude of each vector
-
-### Magnitude of $\vec{a}$
-Using $|\vec{a}| = \sqrt{2^2 + 1^2 + (-3)^2}$:
+### 2️⃣ Magnitude of vector **b**
 
 $$
-|\vec{a}| = \sqrt{4 + 1 + 9} = \sqrt{14}
+|\vec{b}| = \sqrt{4^2 + (-2)^2 + 1^2}
 $$
 
-### Magnitude of $\vec{b}$
-Using $|\vec{b}| = \sqrt{4^2 + (-2)^2 + 1^2}$:
-
 $$
-|\vec{b}| = \sqrt{16 + 4 + 1} = \sqrt{21}
+|\vec{b}| = \sqrt{16 + 4 + 1}
 $$
 
-**Answer (a):**
-
 $$
-|\vec{a}|=\sqrt{14}, \qquad |\vec{b}|=\sqrt{21}
+|\vec{b}| = \sqrt{21}
 $$
 
 ---
 
-## (b) Dot product $\vec{a}\cdot\vec{b}$
-
-Compute component-by-component:
+### 3️⃣ Dot Product
 
 $$
-\vec{a}\cdot\vec{b} = (2)(4) + (1)(-2) + (-3)(1)
+\vec{a} \cdot \vec{b} = (2)(4) + (1)(-2) + (-3)(1)
 $$
 
 $$
-\vec{a}\cdot\vec{b} = 8 - 2 - 3 = 3
+= 8 - 2 - 3
 $$
 
-**Answer (b):**
-
 $$
-\vec{a}\cdot\vec{b} = 3
+= 3
 $$
 
 ---
 
-## (c) Cross product $\vec{a}\times\vec{b}$
+### 4️⃣ Cross Product
 
-Let $\vec{a}=[2,1,-3]$ and $\vec{b}=[4,-2,1]$.
-
-### $x$-component
-$$
-(\vec{a}\times\vec{b})_x = a_y b_z - a_z b_y = (1)(1) - (-3)(-2) = 1 - 6 = -5
-$$
-
-### $y$-component
-$$
-(\vec{a}\times\vec{b})_y = a_z b_x - a_x b_z = (-3)(4) - (2)(1) = -12 - 2 = -14
-$$
-
-### $z$-component
-$$
-(\vec{a}\times\vec{b})_z = a_x b_y - a_y b_x = (2)(-2) - (1)(4) = -4 - 4 = -8
-$$
-
-So,
+We compute the cross product using the determinant:
 
 $$
-\vec{a}\times\vec{b} = [-5,\,-14,\,-8]
+\vec{a} \times \vec{b} =
+\begin{vmatrix}
+i & j & k \\
+2 & 1 & -3 \\
+4 & -2 & 1
+\end{vmatrix}
 $$
 
-**Answer (c):**
+Expanding along the first row:
 
 $$
-\vec{a}\times\vec{b} = [-5,\,-14,\,-8]
+\begin{aligned}
+\vec{a} \times \vec{b}
+&= i(1\cdot1 - (-3)(-2)) \\
+&\quad - j(2\cdot1 - (-3)(4)) \\
+&\quad + k(2(-2) - 1(4)) \\
+&= -5i - 14j - 8k
+\end{aligned}
 $$
 
----
-
-## (d) Angle between $\vec{a}$ and $\vec{b}$
-
-Use
+Therefore:
 
 $$
-\theta = \arccos\!\left(\frac{\vec{a}\cdot\vec{b}}{|\vec{a}|\,|\vec{b}|}\right)
-$$
-
-We already found:
-- $\vec{a}\cdot\vec{b} = 3$
-- $|\vec{a}| = \sqrt{14}$
-- $|\vec{b}| = \sqrt{21}$
-
-Substitute:
-
-$$
-\theta = \arccos\!\left(\frac{3}{\sqrt{14}\sqrt{21}}\right)
-$$
-
-Combine the radicals:
-
-$$
-\sqrt{14}\sqrt{21}=\sqrt{294}
-$$
-
-So the exact form is:
-
-$$
-\theta = \arccos\!\left(\frac{3}{\sqrt{294}}\right)
-$$
-
-Optional numeric approximation:
-- $\sqrt{294}\approx 17.146$
-- $\frac{3}{\sqrt{294}}\approx 0.175$
-
-So,
-
-$$
-\theta \approx \arccos(0.175)\approx 1.395\text{ rad}\approx 79.9^\circ
-$$
-
-**Answer (d):**
-
-$$
-\theta = \arccos\!\left(\frac{3}{\sqrt{294}}\right)\approx 79.9^\circ
+\vec{a} \times \vec{b} = (-5,-14,-8)
 $$
 
 ---
 
-## Final answers (summary)
+## 🎯 Final Results
 
-$$
-|\vec{a}|=\sqrt{14}, \qquad |\vec{b}|=\sqrt{21}
-$$
+| Quantity | Result |
+|----------|--------|
+| Magnitude of **a** | $\sqrt{14}$ |
+| Magnitude of **b** | $\sqrt{21}$ |
+| Dot product | $3$ |
+| Cross product | $(-5, -14, -8)$ |
 
-$$
-\vec{a}\cdot\vec{b}=3
-$$
+---
 
-$$
-\vec{a}\times\vec{b}=[-5,\,-14,\,-8]
-$$
+## 💡 Interpretation
 
-$$
-\theta=\arccos\!\left(\frac{3}{\sqrt{294}}\right)\approx 79.9^\circ
-$$
+The **dot product** tells us how much two vectors point in the same direction.  
+
+The **cross product** gives a vector that is **perpendicular to both vectors**.
+
+These operations are fundamental in **vector algebra, mechanics, and physics**.
