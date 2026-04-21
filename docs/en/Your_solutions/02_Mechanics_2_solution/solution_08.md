@@ -146,16 +146,3 @@ $$
 
 - $F(x) = -kx$ → straight line with negative slope  
 - $U(x) = \frac{1}{2}kx^2$ → parabola  
-
----
-
-## 🔁 Visual Flow
-
-```mermaid
-flowchart TD
-    A[F(x) = -kx] --> B[Newton: m x'' = -kx]
-    B --> C[Simple Harmonic Motion]
-    A --> D[Integrate force]
-    D --> E[Work = -1/2 kx^2]
-    E --> F[U = 1/2 kx^2]
-    F --> G[Check derivative]

@@ -301,16 +301,3 @@ $$
 $$
 
 ---
-
-## 🔁 Visual Flow
-
-```mermaid
-flowchart TD
-    A[Force F(t)] --> B[Divide by mass]
-    B --> C[Acceleration a(t)]
-    C --> D[Integrate]
-    D --> E[Velocity v(t)]
-    E --> F[Use initial velocity]
-    E --> G[Integrate again]
-    G --> H[Position r(t)]
-    H --> I[Use initial position]

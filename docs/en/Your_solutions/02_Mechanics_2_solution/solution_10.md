@@ -224,18 +224,3 @@ $$
 $$
 
 ---
-
-## 🔁 Visual Flow
-
-```mermaid
-flowchart TD
-    A[Position r(t)] --> B[Differentiate]
-    B --> C[Velocity v(t)]
-    C --> D[Differentiate]
-    D --> E[Acceleration a(t)]
-    C --> F[Multiply by m]
-    F --> G[Momentum p(t)]
-    E --> H[Multiply by m]
-    H --> I[Force F(t)]
-    I --> J[Dot with v(t)]
-    J --> K[Power P(t)]

@@ -214,14 +214,3 @@ $$
 - The total mechanical energy stays constant in ideal SHM
 
 ---
-
-## 🔁 Visual Flow
-
-```mermaid
-flowchart TD
-    A[x(t)=0.2cos(10πt)] --> B[A = 0.2 m]
-    A --> C[ω = 10π rad/s]
-    B --> D[E = 1/2 kA^2]
-    C --> E[k = mω^2]
-    E --> F[k = 1000π^2 N/m]
-    D --> G[E = 20π^2 J]
