@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>String Harmonics Simulation</title>
+
+<style>
+body {
+    margin: 0;
+    background: #0b1220;
+    color: white;
+    font-family: Arial;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+.controls {
+    margin: 15px;
+}
+
+canvas {
+    background: #111;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>String Harmonics</h1>
+
+<div class="controls">
+    Harmonic:
+    <input type="range" min="1" max="5" value="1" id="mode">
+    <span id="modeVal">1</span>
+</div>
+
+<canvas id="canvas" width="900" height="400"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+let t = 0;
+
+const modeSlider = document.getElementById("mode");
+const modeVal = document.getElementById("modeVal");
+
+modeSlider.oninput = () => {
+    modeVal.innerText = modeSlider.value;
+};
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    let n = parseInt(modeSlider.value);
+
+    ctx.beginPath();
+
+    for (let x = 0; x < canvas.width; x++) {
+        let y = 200 + 100 * Math.sin(n * Math.PI * x / canvas.width) * Math.cos(t);
+
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+
+    ctx.strokeStyle = "cyan";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // nodes
+    for (let i = 0; i <= n; i++) {
+        let x = i * canvas.width / n;
+        ctx.beginPath();
+        ctx.arc(x, 200, 5, 0, Math.PI * 2);
+        ctx.fillStyle = "red";
+        ctx.fill();
+    }
+
+    t += 0.05;
+    requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+</html>

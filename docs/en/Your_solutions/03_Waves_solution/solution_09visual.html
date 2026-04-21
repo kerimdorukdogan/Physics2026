@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Beats</title>
+<style>
+body {
+    margin: 0;
+    background: #0b1220;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 18px;
+    margin-bottom: 10px;
+}
+
+.controls {
+    margin: 14px 0 18px;
+}
+
+label {
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+canvas {
+    background: #111827;
+    border-radius: 12px;
+    box-shadow: 0 0 18px rgba(0,0,0,0.35);
+    margin-bottom: 18px;
+}
+</style>
+</head>
+<body>
+
+<h1>Beats</h1>
+
+<div class="controls">
+    <label>Frequency 1:
+        <input type="range" id="f1" min="1" max="10" step="0.1" value="5">
+    </label>
+    <span id="f1Val">5.0</span>
+
+    <label>Frequency 2:
+        <input type="range" id="f2" min="1" max="10" step="0.1" value="5.5">
+    </label>
+    <span id="f2Val">5.5</span>
+</div>
+
+<canvas id="canvas" width="1000" height="540"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const f1Slider = document.getElementById("f1");
+const f2Slider = document.getElementById("f2");
+const f1Val = document.getElementById("f1Val");
+const f2Val = document.getElementById("f2Val");
+
+function updateLabels() {
+    f1Val.textContent = parseFloat(f1Slider.value).toFixed(1);
+    f2Val.textContent = parseFloat(f2Slider.value).toFixed(1);
+}
+
+f1Slider.addEventListener("input", updateLabels);
+f2Slider.addEventListener("input", updateLabels);
+
+let t = 0;
+
+function drawAxis(y, label) {
+    ctx.strokeStyle = "#4b5563";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(50, y);
+    ctx.lineTo(950, y);
+    ctx.stroke();
+
+    ctx.fillStyle = "white";
+    ctx.font = "16px Arial";
+    ctx.fillText(label, 55, y - 12);
+}
+
+function drawWave(offsetY, color, fn) {
+    ctx.beginPath();
+    for (let x = 0; x <= 900; x++) {
+        const px = 50 + x;
+        const y = offsetY - fn(x);
+        if (x === 0) ctx.moveTo(px, y);
+        else ctx.lineTo(px, y);
+    }
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.4;
+    ctx.stroke();
+}
+
+function render() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const A = 35;
+    const k = 2 * Math.PI / 260;
+    const f1 = parseFloat(f1Slider.value);
+    const f2 = parseFloat(f2Slider.value);
+    const w1 = 0.04 * f1;
+    const w2 = 0.04 * f2;
+
+    drawAxis(110, "Wave 1");
+    drawAxis(250, "Wave 2");
+    drawAxis(420, "Result (beats)");
+
+    const wave1 = x => A * Math.sin(k * x - w1 * t);
+    const wave2 = x => A * Math.sin(k * x - w2 * t);
+    const total = x => wave1(x) + wave2(x);
+
+    drawWave(110, "#38bdf8", wave1);
+    drawWave(250, "#f97316", wave2);
+    drawWave(420, "#22c55e", total);
+
+    ctx.fillStyle = "#cbd5e1";
+    ctx.font = "15px Arial";
+    ctx.fillText("Blue: first frequency", 760, 80);
+    ctx.fillText("Orange: second frequency", 735, 220);
+    ctx.fillText("Green: combined wave", 760, 390);
+
+    const beatFreq = Math.abs(f1 - f2);
+    ctx.fillStyle = "#f8fafc";
+    ctx.font = "16px Arial";
+    ctx.fillText(`Beat frequency = |f₁ - f₂| = ${beatFreq.toFixed(1)}`, 360, 500);
+
+    t += 1;
+    requestAnimationFrame(render);
+}
+
+updateLabels();
+render();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Doppler Effect</title>
+<style>
+body {
+    margin: 0;
+    background: #0b1220;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 18px;
+    margin-bottom: 10px;
+}
+
+.controls {
+    margin: 14px 0 18px;
+}
+
+label {
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+canvas {
+    background: #111827;
+    border-radius: 12px;
+    box-shadow: 0 0 18px rgba(0,0,0,0.35);
+    margin-bottom: 18px;
+}
+</style>
+</head>
+<body>
+
+<h1>Doppler Effect</h1>
+
+<div class="controls">
+    <label>Source speed:
+        <input type="range" id="speed" min="0" max="8" step="0.1" value="3">
+    </label>
+    <span id="speedVal">3.0</span>
+</div>
+
+<canvas id="canvas" width="1000" height="500"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const speedSlider = document.getElementById("speed");
+const speedVal = document.getElementById("speedVal");
+
+speedSlider.addEventListener("input", () => {
+    speedVal.textContent = parseFloat(speedSlider.value).toFixed(1);
+});
+
+let t = 0;
+let emitted = [];
+
+function emitWave(sourceX, sourceY) {
+    emitted.push({x: sourceX, y: sourceY, r: 0});
+}
+
+function render() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const sourceSpeed = parseFloat(speedSlider.value);
+    const sourceX = 120 + (t * sourceSpeed) % 700;
+    const sourceY = 250;
+
+    // observer
+    const observerX = 900;
+    const observerY = 250;
+
+    // emit wave every few frames
+    if (t % 12 === 0) {
+        emitWave(sourceX, sourceY);
+    }
+
+    // draw waves
+    for (let i = 0; i < emitted.length; i++) {
+        emitted[i].r += 2.2;
+
+        ctx.beginPath();
+        ctx.arc(emitted[i].x, emitted[i].y, emitted[i].r, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.45)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    }
+
+    // keep only visible waves
+    emitted = emitted.filter(w => w.r < 1200);
+
+    // source
+    ctx.beginPath();
+    ctx.arc(sourceX, sourceY, 12, 0, Math.PI * 2);
+    ctx.fillStyle = "#f97316";
+    ctx.fill();
+
+    // observer
+    ctx.beginPath();
+    ctx.arc(observerX, observerY, 12, 0, Math.PI * 2);
+    ctx.fillStyle = "#22c55e";
+    ctx.fill();
+
+    // labels
+    ctx.fillStyle = "white";
+    ctx.font = "16px Arial";
+    ctx.fillText("Moving source", sourceX - 45, sourceY - 20);
+    ctx.fillText("Observer", observerX - 28, observerY - 20);
+
+    // direction arrow
+    ctx.strokeStyle = "#facc15";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(sourceX + 18, sourceY);
+    ctx.lineTo(sourceX + 60, sourceY);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(sourceX + 60, sourceY);
+    ctx.lineTo(sourceX + 50, sourceY - 8);
+    ctx.lineTo(sourceX + 50, sourceY + 8);
+    ctx.closePath();
+    ctx.fillStyle = "#facc15";
+    ctx.fill();
+
+    // annotations
+    ctx.fillStyle = "#cbd5e1";
+    ctx.font = "15px Arial";
+    ctx.fillText("Compressed waves → higher observed frequency", 600, 120);
+    ctx.fillText("Expanded waves → lower frequency behind source", 90, 410);
+
+    t++;
+    requestAnimationFrame(render);
+}
+
+speedVal.textContent = parseFloat(speedSlider.value).toFixed(1);
+render();
+</script>
+
+</body>
+</html>

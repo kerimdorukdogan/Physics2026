@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Superposition Principle</title>
+<style>
+body {
+    margin: 0;
+    background: #0b1220;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 18px;
+    margin-bottom: 10px;
+}
+
+.controls {
+    margin: 12px 0 18px;
+}
+
+label {
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+canvas {
+    background: #111827;
+    border-radius: 12px;
+    box-shadow: 0 0 18px rgba(0,0,0,0.4);
+    margin-bottom: 18px;
+}
+</style>
+</head>
+<body>
+
+<h1>Superposition Principle</h1>
+
+<div class="controls">
+    <label>Phase difference:
+        <input type="range" id="phase" min="0" max="6.28" step="0.01" value="0">
+    </label>
+    <span id="phaseVal">0.00 rad</span>
+</div>
+
+<canvas id="canvas" width="1000" height="520"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const phaseSlider = document.getElementById("phase");
+const phaseVal = document.getElementById("phaseVal");
+
+let t = 0;
+
+phaseSlider.addEventListener("input", () => {
+    phaseVal.textContent = `${parseFloat(phaseSlider.value).toFixed(2)} rad`;
+});
+
+function drawAxis(y, label) {
+    ctx.strokeStyle = "#555";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(50, y);
+    ctx.lineTo(950, y);
+    ctx.stroke();
+
+    ctx.fillStyle = "white";
+    ctx.font = "16px Arial";
+    ctx.fillText(label, 55, y - 12);
+}
+
+function drawWave(offsetY, color, func) {
+    ctx.beginPath();
+    for (let x = 0; x <= 900; x++) {
+        const px = 50 + x;
+        const y = offsetY - func(x);
+        if (x === 0) ctx.moveTo(px, y);
+        else ctx.lineTo(px, y);
+    }
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+}
+
+function render() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const A = 35;
+    const k = 2 * Math.PI / 220;
+    const omega = 0.05;
+    const phi = parseFloat(phaseSlider.value);
+
+    drawAxis(120, "Wave 1");
+    drawAxis(260, "Wave 2");
+    drawAxis(420, "Result");
+
+    const wave1 = x => A * Math.sin(k * x - omega * t);
+    const wave2 = x => A * Math.sin(k * x - omega * t + phi);
+    const total = x => wave1(x) + wave2(x);
+
+    drawWave(120, "#38bdf8", wave1);
+    drawWave(260, "#f97316", wave2);
+    drawWave(420, "#22c55e", total);
+
+    ctx.fillStyle = "#cbd5e1";
+    ctx.font = "15px Arial";
+    ctx.fillText("Blue: first wave", 760, 90);
+    ctx.fillText("Orange: second wave", 740, 230);
+    ctx.fillText("Green: superposition result", 710, 390);
+
+    ctx.fillStyle = "#f8fafc";
+    ctx.font = "16px Arial";
+    ctx.fillText("Move the slider to change phase difference", 330, 485);
+
+    t += 1;
+    requestAnimationFrame(render);
+}
+
+phaseVal.textContent = `${parseFloat(phaseSlider.value).toFixed(2)} rad`;
+render();
+</script>
+
+</body>
+</html>
