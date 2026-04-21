@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wave Properties Visual</title>
+  <style>
+    body {
+      margin: 0;
+      background: #081225;
+      color: #f8fafc;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .panel {
+      width: 920px;
+      max-width: 95vw;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 180px 1fr 90px;
+      gap: 12px;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    canvas {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid #334155;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      max-width: 95vw;
+    }
+
+    .hint {
+      margin-top: 10px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <h1>Wave Properties Visual</h1>
+
+  <div class="panel">
+    <div class="row">
+      <label for="amp">Amplitude A</label>
+      <input id="amp" type="range" min="20" max="100" value="50" />
+      <div id="ampVal">50</div>
+    </div>
+
+    <div class="row">
+      <label for="lambda">Wavelength λ</label>
+      <input id="lambda" type="range" min="80" max="300" value="180" />
+      <div id="lambdaVal">180 px</div>
+    </div>
+
+    <div class="row">
+      <label for="speed">Wave speed</label>
+      <input id="speed" type="range" min="1" max="10" value="4" />
+      <div id="speedVal">4</div>
+    </div>
+
+    <div class="hint">
+      This animation shows a traveling wave.  
+      You can change the amplitude, wavelength, and speed.
+    </div>
+  </div>
+
+  <canvas id="canvas" width="920" height="420"></canvas>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    const amp = document.getElementById("amp");
+    const lambda = document.getElementById("lambda");
+    const speed = document.getElementById("speed");
+
+    const ampVal = document.getElementById("ampVal");
+    const lambdaVal = document.getElementById("lambdaVal");
+    const speedVal = document.getElementById("speedVal");
+
+    let t = 0;
+
+    function updateLabels() {
+      ampVal.textContent = amp.value;
+      lambdaVal.textContent = lambda.value + " px";
+      speedVal.textContent = speed.value;
+    }
+
+    function drawAxes() {
+      ctx.strokeStyle = "#999";
+      ctx.lineWidth = 1;
+
+      ctx.beginPath();
+      ctx.moveTo(50, canvas.height / 2);
+      ctx.lineTo(canvas.width - 30, canvas.height / 2);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(50, 30);
+      ctx.lineTo(50, canvas.height - 30);
+      ctx.stroke();
+
+      ctx.fillStyle = "#222";
+      ctx.font = "16px Arial";
+      ctx.fillText("Position x", canvas.width - 120, canvas.height / 2 - 10);
+      ctx.fillText("Displacement y", 60, 25);
+    }
+
+    function drawWave() {
+      const A = Number(amp.value);
+      const L = Number(lambda.value);
+      const v = Number(speed.value);
+
+      const k = 2 * Math.PI / L;
+      const omega = 0.05 * v;
+
+      ctx.beginPath();
+      for (let x = 0; x <= canvas.width - 80; x++) {
+        const px = x + 50;
+        const y = canvas.height / 2 - A * Math.sin(k * x - omega * t);
+
+        if (x === 0) {
+          ctx.moveTo(px, y);
+        } else {
+          ctx.lineTo(px, y);
+        }
+      }
+
+      ctx.strokeStyle = "#1d4ed8";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      const pointX = 220;
+      const localX = pointX - 50;
+      const pointY = canvas.height / 2 - A * Math.sin(k * localX - omega * t);
+
+      ctx.beginPath();
+      ctx.arc(pointX, pointY, 6, 0, 2 * Math.PI);
+      ctx.fillStyle = "#ef4444";
+      ctx.fill();
+
+      ctx.fillStyle = "#111";
+      ctx.font = "18px Arial";
+      ctx.fillText("y(x,t) = A sin(kx - ωt)", 330, 40);
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawAxes();
+      drawWave();
+      t += 1;
+      requestAnimationFrame(render);
+    }
+
+    amp.addEventListener("input", updateLabels);
+    lambda.addEventListener("input", updateLabels);
+    speed.addEventListener("input", updateLabels);
+
+    updateLabels();
+    render();
+  </script>
+</body>
+</html>
