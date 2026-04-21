@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Two-Slit Interference (Advanced)</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #0b1638 0%, #050b1f 55%, #020614 100%);
+      color: #f8fafc;
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 8px 0 18px;
+      font-size: 2.2rem;
+      text-align: center;
+    }
+
+    .panel {
+      width: 940px;
+      max-width: 95vw;
+      background: rgba(10, 18, 40, 0.88);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      margin-bottom: 16px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 190px 1fr 90px;
+      gap: 12px;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    label {
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #ef4444;
+    }
+
+    .value {
+      text-align: right;
+      font-weight: 700;
+      color: #fde68a;
+    }
+
+    .hint {
+      margin-top: 10px;
+      color: #cbd5e1;
+      line-height: 1.5;
+      font-size: 0.98rem;
+    }
+
+    canvas {
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45);
+      max-width: 95vw;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Two-Slit Interference (Advanced)</h1>
+
+  <div class="panel">
+    <div class="controls">
+      <label for="slitDistance">Slit distance d</label>
+      <input id="slitDistance" type="range" min="30" max="180" value="100" />
+      <div class="value" id="slitDistanceValue">100 px</div>
+    </div>
+
+    <div class="controls">
+      <label for="wavelength">Wavelength λ</label>
+      <input id="wavelength" type="range" min="12" max="80" value="30" />
+      <div class="value" id="wavelengthValue">30 px</div>
+    </div>
+
+    <div class="controls">
+      <label for="speed">Animation speed</label>
+      <input id="speed" type="range" min="1" max="20" value="8" />
+      <div class="value" id="speedValue">8</div>
+    </div>
+
+    <div class="hint">
+      Two coherent slits act as wave sources. Change the slit separation <b>d</b> and wavelength <b>λ</b> to observe how the interference fringes change in real time.
+    </div>
+  </div>
+
+  <canvas id="canvas" width="940" height="560"></canvas>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    const slitDistanceSlider = document.getElementById("slitDistance");
+    const wavelengthSlider = document.getElementById("wavelength");
+    const speedSlider = document.getElementById("speed");
+
+    const slitDistanceValue = document.getElementById("slitDistanceValue");
+    const wavelengthValue = document.getElementById("wavelengthValue");
+    const speedValue = document.getElementById("speedValue");
+
+    const W = canvas.width;
+    const H = canvas.height;
+
+    const sourceX = 120;
+    const screenX = W - 120;
+    let time = 0;
+
+    function updateLabels() {
+      slitDistanceValue.textContent = `${slitDistanceSlider.value} px`;
+      wavelengthValue.textContent = `${wavelengthSlider.value} px`;
+      speedValue.textContent = speedSlider.value;
+    }
+
+    function drawRoundedBackground() {
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, "#1000ff");
+      grad.addColorStop(0.45, "#2d1fff");
+      grad.addColorStop(1, "#5d4bff");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    function draw() {
+      const d = Number(slitDistanceSlider.value);
+      const lambda = Number(wavelengthSlider.value);
+      const speed = Number(speedSlider.value);
+
+      const y1 = H / 2 - d / 2;
+      const y2 = H / 2 + d / 2;
+
+      const k = (2 * Math.PI) / lambda;
+      const omega = 0.13 * speed;
+      const eps = 1e-6;
+
+      drawRoundedBackground();
+
+      const image = ctx.createImageData(W, H);
+      const data = image.data;
+
+      for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+          const dx1 = x - sourceX;
+          const dy1 = y - y1;
+          const dx2 = x - sourceX;
+          const dy2 = y - y2;
+
+          const r1 = Math.sqrt(dx1 * dx1 + dy1 * dy1) + eps;
+          const r2 = Math.sqrt(dx2 * dx2 + dy2 * dy2) + eps;
+
+          const u1 = Math.sin(k * r1 - omega * time) / Math.sqrt(r1);
+          const u2 = Math.sin(k * r2 - omega * time) / Math.sqrt(r2);
+          const u = u1 + u2;
+
+          const intensity = Math.min(1, Math.pow(u, 2) * 3.2);
+
+          const i = (y * W + x) * 4;
+
+          const r = 40 + 230 * intensity;
+          const g = 20 + 120 * intensity;
+          const b = 170 + 85 * intensity;
+
+          data[i] = r;
+          data[i + 1] = g;
+          data[i + 2] = b;
+          data[i + 3] = 255;
+        }
+      }
+
+      ctx.putImageData(image, 0, 0);
+
+      // Barrier with slits
+      ctx.strokeStyle = "rgba(255,255,255,0.92)";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(sourceX, 40);
+      ctx.lineTo(sourceX, y1 - 16);
+      ctx.moveTo(sourceX, y1 + 16);
+      ctx.lineTo(sourceX, y2 - 16);
+      ctx.moveTo(sourceX, y2 + 16);
+      ctx.lineTo(sourceX, H - 40);
+      ctx.stroke();
+
+      // Slits
+      ctx.fillStyle = "#ffffff";
+      ctx.shadowColor = "rgba(255,255,255,0.9)";
+      ctx.shadowBlur = 16;
+      ctx.beginPath();
+      ctx.arc(sourceX, y1, 7, 0, 2 * Math.PI);
+      ctx.arc(sourceX, y2, 7, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Screen
+      ctx.strokeStyle = "rgba(255,255,255,0.8)";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([7, 6]);
+      ctx.beginPath();
+      ctx.moveTo(screenX, 50);
+      ctx.lineTo(screenX, H - 50);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Central maximum reference point
+      const centerY = H / 2;
+
+      // Path lines
+      ctx.strokeStyle = "#00ff99";
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.moveTo(sourceX, y1);
+      ctx.lineTo(screenX, centerY);
+      ctx.moveTo(sourceX, y2);
+      ctx.lineTo(screenX, centerY);
+      ctx.stroke();
+
+      // Labels
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 16px Arial";
+      ctx.fillText("Slit 1", sourceX - 58, y1 - 12);
+      ctx.fillText("Slit 2", sourceX - 58, y2 + 24);
+      ctx.fillText("Screen", screenX - 18, 35);
+
+      ctx.fillStyle = "#ffe066";
+      ctx.font = "bold 15px Arial";
+      ctx.fillText("Central maximum", screenX + 12, centerY - 6);
+
+      ctx.fillStyle = "#ff7b7b";
+      ctx.font = "bold 15px Arial";
+      ctx.fillText("Dark fringe region", screenX + 12, centerY + 36);
+
+      // Small highlight marks
+      ctx.fillStyle = "#ffe066";
+      ctx.beginPath();
+      ctx.arc(screenX, centerY, 4, 0, 2 * Math.PI);
+      ctx.fill();
+
+      ctx.fillStyle = "#ff7b7b";
+      ctx.beginPath();
+      ctx.arc(screenX, centerY + 42, 4, 0, 2 * Math.PI);
+      ctx.fill();
+
+      // Formula
+      ctx.fillStyle = "rgba(255,255,255,0.9)";
+      ctx.font = "15px Arial";
+      ctx.fillText("u = u₁ + u₂", 24, 30);
+
+      time += 1;
+      requestAnimationFrame(draw);
+    }
+
+    slitDistanceSlider.addEventListener("input", updateLabels);
+    wavelengthSlider.addEventListener("input", updateLabels);
+    speedSlider.addEventListener("input", updateLabels);
+
+    updateLabels();
+    draw();
+  </script>
+</body>
+</html>
