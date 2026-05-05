@@ -1,44 +1,74 @@
-# 🧲 Biot–Savart Law – Solution
+# ⚖️ Electrostatic Equilibrium
 
-## 🧾 Problem
-Wire segment:
+## Problem
 
-- Length = 0.1 m  
-- Current = 3 A  
-- Distance = 0.2 m  
+Find the equilibrium position for a charge q₃ = +1 C placed on the line between:
 
-Segment is perpendicular to line to point P.
+- q₁ = +4 C
+- q₂ = +9 C
 
----
-
-## ⚙️ Step 1: Formula
-
-dB = (μ₀ / 4π) × (I dl sinθ / r²)
+The distance between q₁ and q₂ is 2 m.
 
 ---
 
-## 📐 Step 2: Angle
+## Step 1: Define position
 
-θ = 90° → sinθ = 1
+Let q₃ be at distance x from q₁.
 
----
+Then its distance from q₂ is:
 
-## 🧮 Step 3: Compute
-
-dB = (10⁻⁷) × (3 × 0.1) / (0.2²)
-
-dB = (10⁻⁷ × 0.3) / 0.04
-
-dB = 7.5 × 10⁻⁷ T
+2 − x
 
 ---
 
-## 🎯 Final Answer
+## Step 2: Balance the forces
 
-**B ≈ 7.5 × 10⁻⁷ T**
+At equilibrium:
+
+Force from q₁ = Force from q₂
+
+F₁ = F₂
+
+k q₁ q₃ / x² = k q₂ q₃ / (2 − x)²
 
 ---
 
-## 💬 Explanation
+## Step 3: Cancel common terms
 
-"I used Biot–Savart for a small segment and assumed perpendicular geometry."
+k and q₃ cancel:
+
+4 / x² = 9 / (2 − x)²
+
+---
+
+## Step 4: Solve
+
+Take square root:
+
+2 / x = 3 / (2 − x)
+
+Cross multiply:
+
+2(2 − x) = 3x
+
+4 − 2x = 3x
+
+4 = 5x
+
+x = 0.8 m
+
+---
+
+## Final Answer
+
+**q₃ must be placed 0.8 m from q₁**
+
+or
+
+**1.2 m from q₂**
+
+---
+
+## Key Idea
+
+The equilibrium point is closer to the smaller charge because the larger charge produces a stronger repulsive force.

@@ -1,59 +1,60 @@
-# 🔋 Energy in a Capacitor – Solution
+# ⚡ Field Levitation
 
-## 🧾 Problem
-Given:
+## Problem
 
-- S = 0.02 m²  
-- d = 5 mm = 5 × 10⁻³ m  
-- U = 500 V  
+Find the electric field needed to make a proton levitate against gravity.
 
 ---
 
-## ⚙️ Step 1: Capacitance
+## Given
 
-C = ε₀ S / d  
-
-C = (8.85×10⁻¹² × 0.02) / (5×10⁻³)
-
-C ≈ 3.54 × 10⁻¹¹ F
-
----
-
-## ⚡ Step 2: Energy
-
-Energy stored:
-
-U = ½ C V²  
-
-U = 0.5 × 3.54×10⁻¹¹ × (500)²  
-
-U ≈ 4.4 × 10⁻⁶ J
+| Quantity | Value |
+|---|---:|
+| Proton mass | m = 1.67 × 10⁻²⁷ kg |
+| Charge | q = 1.6 × 10⁻¹⁹ C |
+| Gravity | g = 9.8 m/s² |
 
 ---
 
-## 🌐 Step 3: Electric Field
+## Step 1: Condition for levitation
 
-E = V / d  
+Electric force balances gravity:
 
-E = 500 / (5×10⁻³)
-
-E = 1.0 × 10⁵ V/m
+qE = mg
 
 ---
 
-## 🧲 Step 4: Force
+## Step 2: Solve for E
 
-F = (ε₀ S E²) / 2  
-
-F = (8.85×10⁻¹² × 0.02 × (10⁵)²) / 2  
-
-F ≈ 8.85 × 10⁻⁴ N
+E = mg / q
 
 ---
 
-## 🎯 Final Answers
+## Step 3: Substitute values
 
-- C ≈ 3.54 × 10⁻¹¹ F  
-- Energy ≈ 4.4 × 10⁻⁶ J  
-- E = 1.0 × 10⁵ V/m  
-- F ≈ 8.85 × 10⁻⁴ N
+E = (1.67 × 10⁻²⁷ × 9.8) / (1.6 × 10⁻¹⁹)
+
+---
+
+## Step 4: Compute
+
+Numerator:
+≈ 1.64 × 10⁻²⁶  
+
+Divide:
+
+E ≈ (1.64 × 10⁻²⁶) / (1.6 × 10⁻¹⁹)
+
+E ≈ 1.0 × 10⁻⁷ V/m
+
+---
+
+## Final Answer
+
+**E ≈ 1.0 × 10⁻⁷ V/m**
+
+---
+
+## Key Idea
+
+To levitate the proton, electric force must exactly balance gravitational force.

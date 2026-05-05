@@ -1,51 +1,77 @@
-# 🔄 Magnetic Torque – Solution
+# ⚖️ Force Comparison
 
-## 🧾 Problem
-Rectangular loop:
+## Problem
 
-- 10 cm × 5 cm  
-- Current = 2 A  
-- B = 0.3 T  
+Calculate the electric force and gravitational force between an electron and a proton.
 
-Field is parallel to the plane.
+Distance: r ≈ 5.3 × 10⁻¹¹ m
 
----
-
-## ⚙️ Step 1: Formula
-
-τ = I A B sinθ
+Find the ratio: F_e / F_g
 
 ---
 
-## 📐 Step 2: Area
+## Given
 
-A = (0.10)(0.05) = 0.005 m²
-
----
-
-## 🧠 Step 3: Angle
-
-Field parallel to plane →  
-Angle between normal and B = 90°
-
-sin90° = 1
+| Quantity | Value |
+|---|---:|
+| Charge | e = 1.6 × 10⁻¹⁹ C |
+| Coulomb constant | k = 9 × 10⁹ |
+| Gravitational constant | G = 6.67 × 10⁻¹¹ |
+| Electron mass | mₑ = 9.11 × 10⁻³¹ kg |
+| Proton mass | mₚ = 1.67 × 10⁻²⁷ kg |
 
 ---
 
-## 🧮 Step 4: Compute
+## Step 1: Formulas
 
-τ = (2)(0.005)(0.3)
+Electric force:
+F_e = k e² / r²
 
-τ = 0.003 N·m
-
----
-
-## 🎯 Final Answer
-
-**τ = 3.0 × 10⁻³ N·m**
+Gravitational force:
+F_g = G mₑ mₚ / r²
 
 ---
 
-## 💬 Explanation
+## Step 2: Ratio
 
-"Torque is maximum because the magnetic field is parallel to the loop plane."
+F_e / F_g = (k e²) / (G mₑ mₚ)
+
+(Note: r² cancels out)
+
+---
+
+## Step 3: Substitute values
+
+F_e / F_g = (9 × 10⁹ × (1.6 × 10⁻¹⁹)²) / (6.67 × 10⁻¹¹ × 9.11 × 10⁻³¹ × 1.67 × 10⁻²⁷)
+
+---
+
+## Step 4: Compute
+
+Numerator:
+= 9 × 10⁹ × 2.56 × 10⁻³⁸  
+= 2.304 × 10⁻²⁸  
+
+Denominator:
+= 6.67 × 9.11 × 1.67 × 10⁻⁶⁹  
+≈ 1.01 × 10⁻⁶⁷  
+
+---
+
+## Step 5: Final ratio
+
+F_e / F_g ≈ (2.304 × 10⁻²⁸) / (1.01 × 10⁻⁶⁷)
+
+F_e / F_g ≈ 2.3 × 10³⁹
+
+---
+
+## Final Answer
+
+**F_e / F_g ≈ 2.3 × 10³⁹**
+
+---
+
+## Key Idea
+
+Electric force is enormously stronger than gravitational force at atomic scale.
